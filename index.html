@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dear, Us — Our Private Time Capsule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Homemade+Apple&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--paper:#f5eddf;--ink:#49392f;--muted:#8c7969;--rose:#b77d79;--line:#dfd0bd;--dark:#342820;--white:#fffaf2}
+*{box-sizing:border-box}body{margin:0;background:#e9dece;color:var(--ink);font-family:'DM Sans',sans-serif}.wrap{max-width:1050px;margin:24px auto;background:var(--paper);min-height:calc(100vh - 48px);box-shadow:0 18px 55px #4c38251c}.top{padding:22px 7%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.brand{font:600 26px 'Cormorant Garamond';letter-spacing:2px}.brand small{display:block;font:10px 'DM Sans';letter-spacing:3px;color:var(--muted)}main{padding:55px 8%}.eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--rose)}h1{font:500 clamp(48px,8vw,78px)/.95 'Cormorant Garamond';margin:18px 0}h1 em{font-family:'Homemade Apple';font-size:.55em;color:var(--rose)}h2{font:500 36px 'Cormorant Garamond';margin:10px 0 22px}.intro{color:var(--muted);line-height:1.8;font-size:14px;max-width:580px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel,.capsule{background:#fbf6ed;border:1px solid var(--line);padding:22px;margin-top:20px}.field{margin:13px 0}label{display:block;font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:6px}input,textarea{width:100%;padding:12px;border:1px solid var(--line);background:var(--white);font:13px 'DM Sans';color:var(--ink)}textarea{min-height:125px;resize:vertical}.btn{border:0;background:var(--dark);color:#fff8ef;padding:13px 19px;font:500 11px 'DM Sans';letter-spacing:1px;cursor:pointer;margin:8px 8px 0 0}.btn.alt{background:transparent;border:1px solid var(--line);color:var(--ink)}.hidden{display:none!important}.notice{padding:12px;background:#efe2d3;color:#765c4d;font-size:12px;line-height:1.6;margin:15px 0}.status{font-size:12px;color:var(--muted)}.capsule{margin:12px 0}.capsule strong{font:500 25px 'Cormorant Garamond'}.capsule small{display:block;color:var(--muted);margin:6px 0}.count{font:24px 'Cormorant Garamond';color:var(--rose);margin:12px 0}.letter{white-space:pre-wrap;line-height:1.8;font:17px 'Cormorant Garamond';padding:18px;background:#fffaf2;margin-top:12px}.footer{text-align:center;padding:25px;color:var(--muted);font:italic 18px 'Cormorant Garamond';border-top:1px solid var(--line)}
+@media(max-width:700px){.wrap{margin:0}.top{padding:18px 6%}main{padding:38px 7%}.grid{grid-template-columns:1fr}}
+</style></head>
+<body><div class="wrap">
+<header class="top"><div class="brand">DEAR, US <small>A PRIVATE TIME CAPSULE</small></div><div id="account" class="status">Not signed in</div></header>
+<main>
+<section id="config">
+<div class="eyebrow">A little space, just for two</div><h1>To the love<br>we <em>keep.</em></h1>
+<p class="intro">Hubungkan ruang pribadi kalian ke Supabase. Pengaturan ini disimpan di browser perangkat ini.</p>
+<div class="panel">
+<h2>Connect your private space</h2>
+<div class="field"><label>SUPABASE PROJECT URL</label><input id="url" placeholder="https://your-project.supabase.co"></div>
+<div class="field"><label>SUPABASE ANON / PUBLISHABLE KEY</label><input id="key" placeholder="sb_publishable_... atau anon key"></div>
+<div class="field"><label>COUPLE ID</label><input id="couple" placeholder="UUID couple dari langkah setup"></div>
+<button class="btn" onclick="connect()">CONNECT</button>
+<p class="status">Gunakan anon/publishable key saja. Jangan pernah memasukkan service_role key di website.</p>
+</div></section>
+<section id="auth" class="hidden">
+<div class="eyebrow">Only us</div><h1>Welcome <em>home.</em></h1><p class="intro">Daftar dengan email masing-masing atau masuk ke akun yang sudah dibuat.</p>
+<div class="grid"><div class="panel"><h2>Create account</h2><div class="field"><label>EMAIL</label><input id="signupEmail" type="email"></div><div class="field"><label>PASSWORD</label><input id="signupPass" type="password" minlength="8"></div><button class="btn" onclick="signup()">SIGN UP</button></div>
+<div class="panel"><h2>Log in</h2><div class="field"><label>EMAIL</label><input id="loginEmail" type="email"></div><div class="field"><label>PASSWORD</label><input id="loginPass" type="password"></div><button class="btn" onclick="login()">LOG IN</button></div></div>
+</section>
+<section id="home" class="hidden">
+<div class="eyebrow">A place for our little forever</div><h1>Our story<br>in a <em>bottle.</em></h1>
+<p class="intro">Simpan surat untuk masa depan. Isi surat tidak akan diberikan oleh database sebelum tanggal pembukaannya.</p>
+<div class="notice">PRIVATE MODE · Akses dibatasi ke dua akun yang sudah dimasukkan sebagai anggota pasangan di database.</div>
+<div class="panel"><h2>Create a time capsule</h2>
+<div class="field"><label>TITLE</label><input id="title" placeholder="Untuk kita di tahun depan"></div>
+<div class="field"><label>LETTER</label><textarea id="body" placeholder="Tulis surat untuk masa depan..."></textarea></div>
+<div class="field"><label>OPEN ON</label><input id="opens" type="date"></div>
+<button class="btn" onclick="createCapsule()">SEAL OUR CAPSULE ♡</button></div>
+<div class="panel"><div class="eyebrow">Sealed with a promise</div><h2>Our capsules</h2><div id="list" class="status">Loading...</div></div>
+<button class="btn alt" onclick="logout()">LOG OUT</button>
+</section>
+<div id="message" class="notice hidden"></div>
+</main><footer class="footer">“Some moments deserve to meet us again.”</footer></div>
+<script>
+const $=id=>document.getElementById(id);
+let sb=null,coupleId=null;
+function msg(t){$('message').textContent=t;$('message').classList.remove('hidden')}
+function show(id){['config','auth','home'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
+function connect(){const url=$('url').value.trim(),key=$('key').value.trim(),cid=$('couple').value.trim();if(!url||!key||!cid)return msg('Lengkapi URL, publishable/anon key, dan Couple ID.');try{sb=window.supabase.createClient(url,key);coupleId=cid;localStorage.setItem('du_config',JSON.stringify({url,key,cid}));show('auth');sb.auth.getSession().then(({data})=>{if(data.session)boot()})}catch(e){msg(e.message)}}
+async function signup(){const {error}=await sb.auth.signUp({email:$('signupEmail').value,password:$('signupPass').value});if(error)return msg(error.message);msg('Pendaftaran berhasil dikirim. Jika email confirmation aktif, cek inbox untuk verifikasi.')}
+async function login(){const {error}=await sb.auth.signInWithPassword({email:$('loginEmail').value,password:$('loginPass').value});if(error)return msg(error.message);await boot()}
+async function logout(){await sb.auth.signOut();$('account').textContent='Not signed in';show('auth')}
+async function boot(){const {data:{user}}=await sb.auth.getUser();if(!user){show('auth');return}const {data:member,error}=await sb.from('couple_members').select('user_id').eq('couple_id',coupleId).eq('user_id',user.id).maybeSingle();if(error||!member){await sb.auth.signOut();show('auth');return msg('Akun ini belum diundang ke ruang pasangan tersebut. Minta pemilik ruang menambahkan akun ini di couple_members.')} $('account').textContent=user.email;show('home');$('opens').min=new Date().toISOString().slice(0,10);await loadCapsules()}
+async function createCapsule(){const title=$('title').value.trim(),body=$('body').value.trim(),opens=$('opens').value;if(!title||!body||!opens)return msg('Lengkapi judul, surat, dan tanggal pembukaan.');if(opens<new Date().toISOString().slice(0,10))return msg('Tanggal pembukaan harus hari ini atau di masa depan.');const {data:{user}}=await sb.auth.getUser();const {data:cap,error}=await sb.from('capsules').insert({couple_id:coupleId,title,opens_at:opens,created_by:user.id}).select('id').single();if(error)return msg(error.message);const {error:secretError}=await sb.from('capsule_contents').insert({capsule_id:cap.id,body});if(secretError){msg('Metadata dibuat, tetapi surat gagal disimpan: '+secretError.message);return} $('title').value='';$('body').value='';$('opens').value='';msg('Kapsul berhasil disegel. ♡');await loadCapsules()}
+async function loadCapsules(){const {data,error}=await sb.from('capsules').select('id,title,opens_at,created_by,created_at').eq('couple_id',coupleId).order('created_at',{ascending:false});if(error){$('list').textContent=error.message;return}if(!data.length){$('list').textContent='Belum ada kapsul. Buat surat pertama kalian.';return}$('list').innerHTML='';for(const c of data){const d=Math.ceil((new Date(c.opens_at+'T00:00:00')-new Date(new Date().toDateString()))/86400000);const div=document.createElement('div');div.className='capsule';const strong=document.createElement('strong');strong.textContent=c.title;const small=document.createElement('small');small.textContent='Tanggal pembukaan: '+new Date(c.opens_at+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});const count=document.createElement('div');count.className='count';count.textContent=d>0?'⌛ '+d+' hari lagi':'♡ Waktunya membuka';const btn=document.createElement('button');btn.className='btn';btn.textContent=d>0?'VIEW COUNTDOWN':'OPEN CAPSULE';btn.onclick=()=>openCapsule(c.id,div,d);div.append(strong,small,count,btn);$('list').append(div)}}
+async function openCapsule(id,container,d){if(d>0){msg('Surat masih terkunci. Isi tidak dapat diakses sebelum tanggal pembukaan.');return}const {data,error}=await sb.from('capsule_contents').select('body').eq('capsule_id',id).single();if(error)return msg('Surat belum dapat dibuka: '+error.message);let letter=container.querySelector('.letter');if(!letter){letter=document.createElement('div');letter.className='letter';container.append(letter)}letter.textContent=data.body}
+(async()=>{const c=JSON.parse(localStorage.getItem('du_config')||'null');if(c){$('url').value=c.url;$('key').value=c.key;$('couple').value=c.cid;connect()}})();
+</script></body></html>
